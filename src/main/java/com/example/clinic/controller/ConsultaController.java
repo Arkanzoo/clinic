@@ -1,6 +1,7 @@
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Consulta;
+import com.example.clinic.model.User;
 import com.example.clinic.service.ConsultaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,18 @@ public class ConsultaController {
     }
 
     @PostMapping
-    public Consulta create(@RequestBody Consulta consulta) {
-        return consultaService.save(consulta);
+    public Consulta create(@RequestBody Consulta consulta, @RequestParam User user) {
+        return consultaService.save(consulta, user);
+    }
+
+    @PutMapping("/{id}")
+    public Consulta update(@PathVariable Long id, @RequestBody Consulta consulta, @RequestParam User user) {
+        consulta.setId(id);
+        return consultaService.update(consulta, user);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        consultaService.deleteById(id);
+    public void delete(@PathVariable Long id, @RequestParam User user) {
+        consultaService.deleteById(id, user);
     }
 }
